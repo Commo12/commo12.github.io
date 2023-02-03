@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Warstock - Infantry Payment</title>
+    <style>
+      /* Add styles for the website */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      
+      h1 {
+        margin-top: 50px;
+      }
+      
+      form {
+        display: inline-block;
+        text-align: left;
+        margin-top: 50px;
+        padding: 20px;
+        background-color: lightgray;
+        border-radius: 10px;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      
+      input[type="text"], input[type="url"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: none;
+        border-radius: 5px;
+      }
+      
+      input[type="submit"] {
+        background-color: green;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Use Foreign Aid and Send Money to:</h1>
+      <p>https://diplomacyandstrife.com/nation/2309 (prices are $5,000,000 per 1000 infantry equipment)</p>
+      <form id="payment-form">
+        <label>Discord username:</label>
+        <input type="text" name="discord-username" required>
+        <label>Nation link:</label>
+        <input type="url" name="nation-link" required>
+        <label>Amount purchased:</label>
+        <input type="text" name="amount-purchased" required>
+        <input type="submit" value="Submit">
+       
+        
+      </form>
+    </div>
+    <script>
+      const form = document.querySelector("#payment-form");
+      const webhookUrl = "https://discord.com/api/webhooks/1070877245637398630/4HlJdNWT9ZX1iP63uef1yYu-0lOk3M--OIkhrH5AbDr5mGVOfhC2ynO2IvObp_NpeZYf";
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        
+        const discordUsername = form.elements["discord-username"].value;
+        const nationLink = form.elements["nation-link"].value;
+        const amountpurchased = form.elements["amount-purchased"].value;
+        
+        const data = {
+          embeds: [
+            {
+              title: "New Payment",
+              fields: [
+                {
+                  name: "Discord username",
+                  value: discordUsername
+                },
+                {
+                  name: "Nation link",
+                  value: nationLink
+                },
+                {
+                  name: "Amount purchased",
+                  value: amountpurchased
+                },
+              ],
+              color: 14551055
+            }
+          ]
+        };
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+if (!response.ok) {
+  throw new Error(`Request failed with status code: ${response.status}`);
+}
+
+alert("Information sent, thank you!");
+} catch (error) {
+console.error(error);
+alert("Failed to send information, please open a ticket in our server.");
+}
+});
+</script>
+</body>
